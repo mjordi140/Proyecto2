@@ -200,10 +200,11 @@ Proyecto2/
 
 ## 👥 Equipo y Responsabilidades
 
-- **Desarrollo**: mjordi140
-- **Colaboradores**: Teo Verdu, Samuel Climent
-- **Pruebas**: [Pendiente asignar]
-- **Calibración**: [Pendiente asignar]
+- **Desarrollo**: Jordi Martinez, Teo Verdu, Samuel Climent
+- **Robot Niryo**: Jordi Martinez
+- **Servidor Flask**: Samuel Climent
+- **Base de Datos**: Teo Verdu
+- **Interfaz web**: Jordi Martinez, Samuel Climent, Teo Verdu
 
 ---
 
