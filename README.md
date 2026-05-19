@@ -86,20 +86,6 @@ Implementar un sistema completamente automatizado que permita:
 
 ---
 
-## 🛠️ Herramientas y Componentes
-
-| Componente | Descripción |
-|---|---|
-| **Robot** | Niryo Ned2 (robot colaborativo) |
-| **Cinta Transportadora** | Para trasladar objetos clasificados |
-| **Sensores** | 2 sensores de proximidad infrarrojos (DI1, DI5) |
-| **Objetos** | Piezas pequeñas y grandes para paletizar |
-| **Biblioteca Python** | `pyniryo` para control del robot |
-| **Framework Backend** | Flask (Python) |
-| **Frontend** | HTML5, CSS3, JavaScript vanilla |
-
----
-
 ## 📁 Estructura del Proyecto
 
 ```
