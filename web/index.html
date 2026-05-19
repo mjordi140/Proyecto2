@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Control del robot Niryo</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <div class="container">
+        <div class="right">
+            <h1>Proyectos RII 2 - Robot Niryo</h1>
+            <h3>Jordi Martinez - Teo Verdu - Samuel Climent</h3>
+            <div class="section">
+                <h2>Control automático</h2>
+                <hr><button id="startBtn" class="button">START</button>
+                <button id="stopBtn" class="button">STOP</button>      
+            </div>
+            <div class="section">
+                <h2>Control manual</h2>
+                <hr><strong>Home:</strong>
+                <button id="homeBtn" class="button">HOME</button>
+            </div>                
+            <div class="section">     
+                <h2>Estado</h2>      
+                <div id="status">Esperando acción...</div>
+                <hr><h2>Piezas paletizadas</h2>
+                <div id="piezas">Cargando...</div>                  
+            </div>
+            
+            <div class="section" id ="posiciones" style="white-space: nowrap;">
+                <strong>X:</strong> <span id="X" class = "pos">...</span> |
+                <strong>Y:</strong> <span id="Y" class = "pos">...</span> |
+                <strong>Z:</strong> <span id="Z" class = "pos">...</span> |
+                <strong>ROLL:</strong> <span id="ROLL" class = "pos">...</span> |
+                <strong>PITCH:</strong> <span id="PITCH" class = "pos">...</span> |
+                <strong>YAW:</strong> <span id="YAW" class = "pos">...</span>
+            </div>
+            <div class="section" id = "mov_pos" style="white-space: nowrap;">
+                <strong>X:</strong> <input class = "mov_posiciones" type="number" style = "width: 50px; height: 25px;" placeholder="0"> |
+                <strong>Y:</strong> <input class = "mov_posiciones" type="number" style = "width: 50px; height: 25px;" placeholder="0"> |
+                <strong>Z:</strong> <input class = "mov_posiciones" type="number" style = "width: 50px; height: 25px;" placeholder="0"> |
+                <strong>ROLL:</strong> <input class = "mov_posiciones"type="number" style = "width: 50px; height: 25px;" placeholder="0"> |
+                <strong>PITCH:</strong> <input class = "mov_posiciones" type="number" style = "width: 50px; height: 25px;" placeholder="0"> |
+                <strong>YAW:</strong> <input class = "mov_posiciones" type="number" style = "width: 50px; height: 25px;" placeholder="0">
+                <hr><button id="moveBtn" class="button">MOVE</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        const statusDiv = document.getElementById("status");
+
+        // -------------------------
+        // START
+        // -------------------------
+        document.getElementById("startBtn").addEventListener("click", () => {
+            statusDiv.innerHTML = "Estado: Ejecutando...";
+            
+            fetch("http://127.0.0.1:5000/run_main", {
+                method: "POST"
+            })
+            .then(response => response.json())
+            .then(data => {
+                statusDiv.innerHTML = "Estado: " + data.status;
+            });
+        });
+
+        // -------------------------
+        // STOP
+        // -------------------------
+        document.getElementById("stopBtn").addEventListener("click", () => {
+            statusDiv.innerHTML = "Estado: STOP presionado";
+
+            fetch("http://127.0.0.1:5000/stop", {
+                method: "POST"
+            })
+            .then(response => response.json())
+            .then(data => {
+                statusDiv.innerHTML = "Estado: " + data.status;
+            });
+        });
+
+        // -------------------------
+        // HOME
+        // -------------------------
+        document.getElementById("homeBtn").addEventListener("click", () => {
+            statusDiv.innerHTML = "Estado: HOME presionado";
+
+            fetch("http://127.0.0.1:5000/home", {
+                method: "POST"
+            })
+            .then(response => response.json())
+            .then(data => {
+                statusDiv.innerHTML = "Estado: " + data.status;
+            });
+        });
+
+        // -------------------------
+        // MOVE (EJERCICIO 3)
+        // -------------------------
+        document.getElementById("moveBtn").addEventListener("click", () => {
+
+            const data = {
+                x: parseFloat(document.getElementById("inputX").value),
+                y: parseFloat(document.getElementById("inputY").value),
+                z: parseFloat(document.getElementById("inputZ").value),
+                roll: parseFloat(document.getElementById("inputROLL").value),
+                pitch: parseFloat(document.getElementById("inputPITCH").value),
+                yaw: parseFloat(document.getElementById("inputYAW").value)
+            };
+
+            statusDiv.innerHTML = "Estado: moviendo robot...";
+
+            fetch("http://127.0.0.1:5000/move", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                statusDiv.innerHTML = "Estado: " + data.status;
+            })
+            .catch(err => {
+                console.error(err);
+                statusDiv.innerHTML = "Error al mover robot";
+            });
+        });
+
+        // -------------------------
+        // ACTUALIZAR PIEZAS
+        // -------------------------
+        function actualizarPiezas() {
+            fetch("http://127.0.0.1:5000/paletizadas", { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('piezas').textContent = data.piezas;
+                })
+                .catch(err => console.error(err));
+        }
+
+        // -------------------------
+        // ACTUALIZAR POSICIÓN
+        // -------------------------
+        function actualizarPosicion() {
+            fetch("http://127.0.0.1:5000/posicion", { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("X").textContent = data.x;
+                    document.getElementById("Y").textContent = data.y;
+                    document.getElementById("Z").textContent = data.z;
+                    document.getElementById("ROLL").textContent = data.roll;
+                    document.getElementById("PITCH").textContent = data.pitch;
+                    document.getElementById("YAW").textContent = data.yaw;
+                })
+                .catch(err => console.error(err));
+        }
+
+        // Actualización cada segundo
+        setInterval(actualizarPiezas, 1000);
+        setInterval(actualizarPosicion, 1000);
+
+    </script>
+
+</body>
+</html>
