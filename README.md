@@ -106,31 +106,6 @@ Proyecto2/
 
 ---
 
-## 🔌 Configuración de Hardware
-
-### Sensores de Proximidad:
-- **PIN_SENSOR_PIEZA_PEQUEÑA**: DI5
-- **PIN_SENSOR_PIEZA_GRANDE**: DI1
-- **Detección**: 
-  - Pieza pequeña: Solo DI5 detecta (LOW)
-  - Pieza grande: Ambos detectan (DI1 y DI5 en LOW)
-
-### Poses Principales (Robot Real):
-- **POS_INICIAL**: Posición de inicio/reposo
-- **POS_COJER_PIEZA**: Coger pieza de la bandeja
-- **POS_DEJAR_CONVEYOR**: Dejar pieza en cinta transportadora
-- **POS_RECOGER**: Recoger pieza de cinta
-- **POS_CENTRO**: Pose central de paletizado
-- **offsets_pequeñas**: 3 offsets para objetos pequeños
-- **offsets_grandes**: 3 offsets para objetos grandes
-
-### Servidor Flask:
-- **Host**: `127.0.0.1`
-- **Puerto**: `5000`
-- **Protocolo**: HTTP
-
----
-
 ## 🚀 Próximos Pasos
 
 ### Fase 2: Completar Servidor Flask
