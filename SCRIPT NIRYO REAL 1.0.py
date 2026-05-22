@@ -9,28 +9,43 @@ PIN_SENSOR_PIEZA_GRANDE  = PinID.DI1
 
 META_PIEZAS_PEQUENYAS = 3
 
-POS_INICIAL = PoseObject(x=0.251, y=0.000, z=0.313, roll=0.239, pitch=1.421, yaw=0.350)
-POS_STOP = PoseObject(x=0, y=0, z=0, roll=0, pitch=0, yaw=0)
+#0.2438,-0.0055,0.3474,-0.0779,0.6068,-0.0524
+POS_INICIAL = PoseObject(x=0.2438, y=-0.0055, z=0.3474, roll=-0.0779, pitch=0.6068, yaw=-0.0524)
 
-POS_COJER_PIEZA = PoseObject(x=0.286, y=0.179, z=0.158, roll=0.476, pitch=1.540, yaw=0.492)
-POS_PRE_COJER_PIEZA = PoseObject(x=0.279, y=0.179, z=0.204, roll=0.983, pitch=1.547, yaw=1.005)
+#0.2,-0.196,0.0878,3.0755,1.2281,3.1308
+POS_COJER_PIEZA = PoseObject(x=0.2, y=-0.196, z=0.0878, roll=3.0755, pitch=1.2281, yaw=3.1308)
+#0.1988,-0.1957,0.1529,-2.8363,1.4386,-2.9242
+POS_PRE_COJER_PIEZA = PoseObject(x=0.1988, y=-0.1957, z=0.1529, roll=-2.8363, pitch=1.4386, yaw=-2.9242)
 
-POS_PRE_DEJAR_CONVEYOR = PoseObject(x=-0.037, y=0.204, z=0.205, roll=1.976, pitch=1.547, yaw=2.01)
-POS_DEJAR_CONVEYOR = PoseObject(x=-0.036, y=0.203, z=0.145, roll=3.01, pitch=1.547, yaw=3.028)
+#0.2792,-0.2049,0.1188,1.0894,1.5394,1.0279
+POS_PRE_DEJAR_CONVEYOR = PoseObject(x=0.2792, y=-0.2049, z=0.1188, roll=1.0894, pitch=1.5394, yaw=1.0279)
+#0.2887,-0.2049,0.0757,0.1658,1.4893,0.1757
+POS_DEJAR_CONVEYOR = PoseObject(x=0.2887, y=-0.2049, z=0.0757, roll=0.1658, pitch=1.4893, yaw=0.1757)
 
-POS_RECOGER = PoseObject(x=0.286, y=0.179, z=0.158, roll=0.476, pitch=1.540, yaw=0.492)
-POS_PRE_RECOGER = PoseObject(x=0.279, y=0.179, z=0.204, roll=0.983, pitch=1.547, yaw=1.005)
+#0.2788,0.1758,0.0698,-1.3735,1.4922,-1.405
+POS_RECOGER = PoseObject(x=0.2788, y=0.1758, z=0.0698, roll=-1.3735, pitch=1.4922, yaw=-1.405)
+#0.2806,0.1764,0.1304,-0.4217,1.4018,-0.4012
+POS_PRE_RECOGER = PoseObject(x=0.2806, y=0.1764, z=0.1304, roll=-0.4217, pitch=1.4018, yaw=-0.4012)
 
-POS_PRE_CENTRO = PoseObject(x=0.106, y=0.212, z=0.201, roll=2.945, pitch=1.514, yaw=3.028)
-POS_CENTRO = PoseObject(x=0.106, y=0.212, z=0.201, roll=2.945, pitch=1.514, yaw=3.028)
+#0.0376,0.2095,0.1551,2.8083,1.4893,2.8565
+POS_PRE_CENTRO = PoseObject(x=0.0376, y=0.2095, z=0.1551, roll=2.8083, pitch=1.4893, yaw=2.8565)
+#0.0443,0.2049,0.0619,-2.4745,1.5295,-2.3983
+POS_CENTRO = PoseObject(x=0.0443, y=0.2049, z=0.0619, roll=-2.4745, pitch=1.5295, yaw=-2.3983)
 
 # ahora tengo qu eponer los offsets de las 6 piezas e intentar que si detecta una pieza pequeña la deje arriba de izquierda a derecha y si detecta una pieza grande la deje debajo de izquierda a derecha de la POS_CENTRO, es decir, la pieza pequeña 1 se dejará en la parte superior izquierda de la POS_CENTRO, la pieza pequeña 2 en la parte superior central y la pieza pequeña 3 en la parte superior derecha, mientras que la pieza grande 1 se dejará en la parte inferior izquierda de la POS_CENTRO.
-offset_pequenyas = [PoseObject(x=0.0, y=0.0, z=0.0, roll=0.0, pitch=0.0, yaw=0.0),
-                    PoseObject(x=0.0, y=0.0, z=0.0, roll=0.0, pitch=0.0, yaw=0.0),
-                    PoseObject(x=0.0, y=0.0, z=0.0, roll=0.0, pitch=0.0, yaw=0.0)]
-offset_grandes = [PoseObject(x=0.0, y=0.0, z=0.0, roll=0.0, pitch=0.0, yaw=0.0),
-                    PoseObject(x=0.0, y=0.0, z=0.0, roll=0.0, pitch=0.0, yaw=0.0),
-                    PoseObject(x=0.0, y=0.0, z=0.0, roll=0.0, pitch=0.0, yaw=0.0)]
+
+offset_pequenyas = [
+    PoseObject(x=0.0, y=0.05, z=0.0, roll=0, pitch=0, yaw=0),   # izquierda arriba
+    PoseObject(x=0.0, y=0.0,  z=0.0, roll=0, pitch=0, yaw=0),   # centro arriba
+    PoseObject(x=0.0, y=-0.05,z=0.0, roll=0, pitch=0, yaw=0)    # derecha arriba
+]
+
+offset_grandes = [
+    PoseObject(x=0.05, y=0.05, z=0.0, roll=0, pitch=0, yaw=0),   # izquierda abajo
+    PoseObject(x=0.05, y=0.0,  z=0.0, roll=0, pitch=0, yaw=0),   # centro abajo
+    PoseObject(x=0.05, y=-0.05,z=0.0, roll=0, pitch=0, yaw=0)    # derecha abajo
+]
+
 
 
 def main():
@@ -53,9 +68,20 @@ def registrar_pieza_grande():
     contador_piezas_grandes += 1
     print("Piezas grandes:", contador_piezas_grandes)
 
+def sumar_pose(p1, p2):
+    return PoseObject(
+        x=p1.x + p2.x,
+        y=p1.y + p2.y,
+        z=p1.z + p2.z,
+        roll=p1.roll + p2.roll,
+        pitch=p1.pitch + p2.pitch,
+        yaw=p1.yaw + p2.yaw
+    )
 
+contador_piezas_grandes = 0
+contador_piezas_pequenyas = 0
 num_obj = 0
-es_grande = false
+es_grande = False
 
 def Pickandplace(num_obj):
     num_obj = 0
@@ -67,6 +93,7 @@ def Pickandplace(num_obj):
 
     while num_obj < 6:
 
+        es_grande = False
         num_obj += 1
 
         robot.move_pose(POS_INICIAL)
@@ -88,34 +115,40 @@ def Pickandplace(num_obj):
             if estado_sensor_grande == PinState.LOW and estado_sensor_pequenyo == PinState.LOW:
                 robot.stop_conveyor(conveyor_id)
                 registrar_pieza_grande()
-                es_grande = true
+                es_grande = True
+                robot.run_conveyor(conveyor_id, speed=100, direction=ConveyorDirection.BACKWARD)
+                robot.wait(9.0)
+                robot.stop_conveyor(conveyor_id)
                 break
-
+            robot.wait(0.1)    
             # Detección pieza pequeña, en este caso solo el sensor pequeño detectará la pieza.
-            if estado_sensor_pequenyo == PinState.LOW:
+            if estado_sensor_pequenyo == PinState.LOW and estado_sensor_grande == PinState.HIGH:
                 robot.stop_conveyor(conveyor_id)
                 registrar_pieza_pequenya()
-                es_grande = false
+                es_grande = False
                 break
         
-        robot.wait(1)
-        robot.move_pose(POS_PRE_RECOGER)
-        robot.move_pose(POS_RECOGER)
-        robot.close_gripper(speed=100)
-        robot.move_pose(POS_PRE_RECOGER)
-        robot.move_pose(POS_PRE_CENTRO)
-        if es_grande:
-            robot.move_pose(POS_PRE_CENTRO + offset_grandes[contador_piezas_grandes-1])
-            robot.move_pose(POS_CENTRO + offset_grandes[contador_piezas_grandes-1])
 
-        else:
-            robot.move_pose(POS_PRE_CENTRO + offset_pequenyas[contador_piezas_pequenyas-1])
-            robot.move_pose(POS_CENTRO + offset_pequenyas[contador_piezas_pequenyas-1])
-        robot.open_gripper(speed=100)
 
-        robot.move_pose(POS_PRE_CENTRO)
-        robot.move_pose(POS_INICIAL)
+        if es_grande == False:
+            robot.wait(1)
+            robot.move_pose(POS_PRE_RECOGER)
+            robot.move_pose(POS_RECOGER)
+            robot.close_gripper(speed=100)
+            robot.move_pose(POS_PRE_RECOGER)
+            robot.move_pose(POS_PRE_CENTRO)
+
+            if contador_piezas_pequenyas <= 3:
+                offset = offset_pequenyas[contador_piezas_pequenyas - 1]
+
+                robot.move_pose(sumar_pose(POS_PRE_CENTRO, offset))
+                robot.move_pose(sumar_pose(POS_CENTRO, offset))
+                robot.open_gripper(speed=100)
+                robot.move_pose(sumar_pose(POS_PRE_CENTRO, offset))
+
+
         
+    robot.stop_conveyor(conveyor_id)
     robot.unset_conveyor(conveyor_id)
     robot.close_connection()
         
