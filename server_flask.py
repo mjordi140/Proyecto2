@@ -13,7 +13,7 @@ CORS(app)
 robot_lock = threading.Lock()
 
 # ================= CONEXIÓN BD =================
-conexion_bd = bd.conectar("TVERGUT", "tu_password")
+conexion_bd = bd.conectar("TVERGUT", "TVERGUT")
 
 # ================= CSV =================
 CSV_PATH = "logs.csv"
@@ -57,36 +57,47 @@ def parar_robot():
     rb.stop()
 
 def ir_home():
-    rb.robot.move_pose(rb.POS_INICIAL)
+    if rb.robot is None: return
+    rb.robot.arm.move_pose(rb.POS_INICIAL)
 
 def mover_pose(x, y, z, roll, pitch, yaw):
+    if rb.robot is None: return
     rb.move_to_position(x, y, z, roll, pitch, yaw)
 
 def mover_joints(j1, j2, j3, j4, j5, j6):
-    rb.robot.move_joints(j1, j2, j3, j4, j5, j6)
+    if rb.robot is None: return
+    rb.robot.arm.move_joints(j1, j2, j3, j4, j5, j6)
 
 def encender_cinta(velocidad):
     global _conveyor_id_manual
+    if rb.robot is None: return
     if _conveyor_id_manual is None:
-        _conveyor_id_manual = rb.robot.set_conveyor()
-    rb.robot.run_conveyor(_conveyor_id_manual, speed=velocidad, direction=rb.ConveyorDirection.FORWARD)
+        _conveyor_id_manual = rb.robot.conveyor.set_conveyor()
+    rb.robot.conveyor.run_conveyor(_conveyor_id_manual, speed=velocidad, direction=rb.ConveyorDirection.FORWARD)
 
 def parar_cinta():
     global _conveyor_id_manual
+    if rb.robot is None: return
     if _conveyor_id_manual is not None:
-        rb.robot.stop_conveyor(_conveyor_id_manual)
+        rb.robot.conveyor.stop_conveyor(_conveyor_id_manual)
 
 def abrir_herramienta():
-    rb.robot.open_gripper(speed=400)
+    if rb.robot is None: return
+    rb.robot.tool.update_tool()
+    rb.robot.tool.open_gripper(speed=400)
 
 def cerrar_herramienta():
-    rb.robot.close_gripper(speed=400)
+    if rb.robot is None: return
+    rb.robot.tool.update_tool()
+    rb.robot.tool.close_gripper(speed=400)
 
 def get_posicion():
     return rb.get_posicion_robot()
 
 def leer_sensor():
-    return rb.robot.digital_read(rb.PIN_SENSOR_PIEZA_PEQUENYA) == rb.PinState.LOW
+    if rb.robot is None:
+        return False
+    return rb.robot.io.digital_read(rb.PIN_SENSOR_PIEZA_PEQUENYA) == rb.PinState.LOW
 
 
 # ================= AUTOMÁTICO =================
@@ -323,9 +334,20 @@ def config():
 
     if ip_robot:
         estado["ip_robot"] = ip_robot
+        rb.conectar_robot(ip_robot)
         registrar(f"IP robot actualizada a {ip_robot}", "robot")
 
     return jsonify({"status": "ok", "ip_robot": estado["ip_robot"]})
+
+
+# ================= CONECTAR ROBOT =================
+@app.route("/conectar", methods=["POST"])
+def conectar():
+    rb.conectar_robot()
+    conectado = rb.robot is not None
+    msg = f"Robot conectado en {rb.IP_ROBOT}" if conectado else "Error al conectar con el robot"
+    registrar(msg, "robot")
+    return jsonify({"status": "ok" if conectado else "error", "mensaje": msg})
 
 
 # ================= MAIN =================
