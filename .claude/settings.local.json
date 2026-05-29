@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install *)",
+      "Bash(python -c ' *)",
+      "Bash(del \"C:\\\\Users\\\\teove\\\\OneDrive\\\\Escritorio\\\\Teo\\\\Carrera\\\\2n\\\\Proyecto2\\\\Proyecto2\\\\prova.py\")"
+    ]
+  }
+}

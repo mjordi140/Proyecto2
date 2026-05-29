@@ -5,166 +5,344 @@
     <title>Control del robot Niryo</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
+
 <body>
-    <div class="container">
-        <div class="right">
-            <h1> </h1>
-            <h1>Proyectos RII 2 - Robot Niryo</h1>
-            <h3>Jordi Martinez - Teo Verdu - Samuel Climent</h3>
-            <div class="section">
-                <h2>Control automático</h2>
-                <hr><button id="startBtn" class="button">START</button>
-                <button id="stopBtn" class="button">STOP</button>      
-            </div>
-            <div class="section">
-                <h2>Control manual</h2>
-                <hr><strong>Home:</strong>
-                <button id="homeBtn" class="button">HOME</button>
-            </div>                
-            <div class="section">     
-                <h2>Estado</h2>      
-                <div id="status">Esperando acción...</div>
-                <hr><h2>Piezas paletizadas</h2>
-                <div id="piezas">Cargando...</div>                  
-            </div>
-            
-            <div class="section" id ="posiciones" style="white-space: nowrap;">
-                <strong>X:</strong> <span id="X" class = "pos">...</span> |
-                <strong>Y:</strong> <span id="Y" class = "pos">...</span> |
-                <strong>Z:</strong> <span id="Z" class = "pos">...</span> |
-                <strong>ROLL:</strong> <span id="ROLL" class = "pos">...</span> |
-                <strong>PITCH:</strong> <span id="PITCH" class = "pos">...</span> |
-                <strong>YAW:</strong> <span id="YAW" class = "pos">...</span>
-            </div>
-            <div class="section" id = "mov_pos" style="white-space: nowrap;">
-                <strong>X:</strong> <input class = "mov_posiciones" type="number" style = "width: 50px; height: 25px;" placeholder="0"> |
-                <strong>Y:</strong> <input class = "mov_posiciones" type="number" style = "width: 50px; height: 25px;" placeholder="0"> |
-                <strong>Z:</strong> <input class = "mov_posiciones" type="number" style = "width: 50px; height: 25px;" placeholder="0"> |
-                <strong>ROLL:</strong> <input class = "mov_posiciones"type="number" style = "width: 50px; height: 25px;" placeholder="0"> |
-                <strong>PITCH:</strong> <input class = "mov_posiciones" type="number" style = "width: 50px; height: 25px;" placeholder="0"> |
-                <strong>YAW:</strong> <input class = "mov_posiciones" type="number" style = "width: 50px; height: 25px;" placeholder="0">
-                <hr><button id="moveBtn" class="button">MOVE</button>
-            </div>
+<div class="container">
+<div class="right">
 
-        </div>
+<h1>Proyectos RII 2 - Robot Niryo</h1>
+<h3>Jordi Martinez - Teo Verdu - Samuel Climent</h3>
 
+<!-- ================= AUTOMÁTICO ================= -->
+<div class="section">
+    <h2>Control automático</h2>
+    <hr>
+    <button id="startBtn" class="button">START</button>
+    <button id="stopBtn" class="button">STOP</button>
+</div>
+
+<!-- ================= CINTA ================= -->
+<div class="section">
+    <h2>Cinta</h2>
+    <hr>
+    <button id="cintaOnBtn" class="button">CINTA ON</button>
+    <button id="cintaOffBtn" class="button">CINTA OFF</button>
+    <br><br>
+    <strong>Velocidad:</strong>
+    <br><br>
+    <button class="button vel-btn" data-vel="25">25%</button>
+    <button class="button vel-btn" data-vel="50">50%</button>
+    <button class="button vel-btn" data-vel="100">100%</button>
+    <br><br>
+    <span>Velocidad seleccionada: <strong id="velActual">50</strong>%</span>
+</div>
+
+<!-- ================= HERRAMIENTA ================= -->
+<div class="section">
+    <h2>Herramienta</h2>
+    <hr>
+    <button id="toolOpenBtn" class="button">ABRIR</button>
+    <button id="toolCloseBtn" class="button">CERRAR</button>
+</div>
+
+<!-- ================= MANUAL ================= -->
+<div class="section">
+    <h2>Control manual</h2>
+    <hr>
+    <button id="homeBtn" class="button">HOME</button>
+</div>
+
+<!-- ================= SENSOR ================= -->
+<div class="section">
+    <h2>Sensor IR</h2>
+    <hr>
+    <div id="sensorIR"></div>
+    <p id="sensorText">Sin detección</p>
+</div>
+
+<!-- ================= ESTADO ================= -->
+<div class="section">
+    <h2>Estado</h2>
+    <div id="status">Esperando acción...</div>
+
+    <hr>
+
+    <h2>Piezas paletizadas</h2>
+    <div id="piezas">Cargando...</div>
+
+    <hr>
+
+    <h2>Estado de la herramienta</h2>
+    <div id="herramienta">Cargando...</div>
+</div>
+
+<!-- ================= POSICIÓN ================= -->
+<div class="section">
+    <strong>X:</strong> <span id="X">...</span> |
+    <strong>Y:</strong> <span id="Y">...</span> |
+    <strong>Z:</strong> <span id="Z">...</span> |
+    <strong>ROLL:</strong> <span id="ROLL">...</span> |
+    <strong>PITCH:</strong> <span id="PITCH">...</span> |
+    <strong>YAW:</strong> <span id="YAW">...</span>
+</div>
+
+<!-- ================= MOVER POS ================= -->
+<div class="section">
+    <h2>Mover por posición</h2>
+    <hr>
+    <input id="inputX" type="number" placeholder="X">
+    <input id="inputY" type="number" placeholder="Y">
+    <input id="inputZ" type="number" placeholder="Z">
+    <input id="inputROLL" type="number" placeholder="ROLL">
+    <input id="inputPITCH" type="number" placeholder="PITCH">
+    <input id="inputYAW" type="number" placeholder="YAW">
+    <br><br>
+    <button id="moveBtn" class="button">MOVE</button>
+</div>
+
+<!-- ================= MOVER JOINTS ================= -->
+<div class="section">
+    <h2>Mover por joints</h2>
+    <hr>
+    <input id="inputJ1" type="number" placeholder="J1">
+    <input id="inputJ2" type="number" placeholder="J2">
+    <input id="inputJ3" type="number" placeholder="J3">
+    <input id="inputJ4" type="number" placeholder="J4">
+    <input id="inputJ5" type="number" placeholder="J5">
+    <input id="inputJ6" type="number" placeholder="J6">
+    <br><br>
+    <button id="jointsBtn" class="button">MOVE JOINTS</button>
+</div>
+
+<!-- ================= LOGS ================= -->
+<div class="section">
+    <h2>Consulta de logs</h2>
+    <hr>
+    <select id="elemento">
+        <option value="">Todos</option>
+        <option value="robot">Robot</option>
+        <option value="cinta">Cinta</option>
+        <option value="herramienta">Herramienta</option>
+        <option value="sensor">Sensor</option>
+    </select>
+
+    <br><br>
+    <button onclick="abrir_log()" class="button">Ver logs</button>
+</div>
+
+<!-- ================= CONFIGURACIÓN ================= -->
+<div class="section">
+    <h2>Configuración de conexión</h2>
+    <hr>
+    <div>
+        <strong>IP Flask:</strong>
+        <input id="ipFlask" class="mov_posiciones" type="text" placeholder="127.0.0.1">
+
+        <strong>Puerto:</strong>
+        <input id="puertoFlask" class="mov_posiciones" type="text" placeholder="5000">
     </div>
+    <br>
+    <div>
+        <strong>IP Robot:</strong>
+        <input id="ipRobot" class="mov_posiciones" type="text" placeholder="169.254.200.200">
+    </div>
+    <br>
+    <button id="guardarIpBtn" class="button">GUARDAR CONFIGURACIÓN</button>
+</div>
 
-    <script>
-        const statusDiv = document.getElementById("status");
 
-        // -------------------------
-        // START
-        // -------------------------
-        document.getElementById("startBtn").addEventListener("click", () => {
-            statusDiv.innerHTML = "Estado: Ejecutando...";
-            
-            fetch("http://127.0.0.1:5000/run_main", {
-                method: "POST"
-            })
-            .then(response => response.json())
-            .then(data => {
-                statusDiv.innerHTML = "Estado: " + data.status;
-            });
-        });
+</div>
+</div>
 
-        // -------------------------
-        // STOP
-        // -------------------------
-        document.getElementById("stopBtn").addEventListener("click", () => {
-            statusDiv.innerHTML = "Estado: STOP presionado";
+<script>
 
-            fetch("http://127.0.0.1:5000/stop", {
-                method: "POST"
-            })
-            .then(response => response.json())
-            .then(data => {
-                statusDiv.innerHTML = "Estado: " + data.status;
-            });
-        });
+let BASE_URL = "http://127.0.0.1:5000";
+let velocidadSeleccionada = 50;
 
-        // -------------------------
-        // HOME
-        // -------------------------
-        document.getElementById("homeBtn").addEventListener("click", () => {
-            statusDiv.innerHTML = "Estado: HOME presionado";
+const statusDiv = document.getElementById("status");
 
-            fetch("http://127.0.0.1:5000/home", {
-                method: "POST"
-            })
-            .then(response => response.json())
-            .then(data => {
-                statusDiv.innerHTML = "Estado: " + data.status;
-            });
-        });
+/* ================= VELOCIDAD CINTA ================= */
+document.querySelectorAll(".vel-btn").forEach(btn => {
+    btn.addEventListener("click", function() {
+        velocidadSeleccionada = parseInt(this.dataset.vel);
+        document.getElementById("velActual").textContent = velocidadSeleccionada;
 
-        // -------------------------
-        // MOVE (EJERCICIO 3)
-        // -------------------------
-        document.getElementById("moveBtn").addEventListener("click", () => {
+        // Resaltar el botón activo
+        document.querySelectorAll(".vel-btn").forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+    });
+});
 
-            const data = {
-                x: parseFloat(document.getElementById("inputX").value),
-                y: parseFloat(document.getElementById("inputY").value),
-                z: parseFloat(document.getElementById("inputZ").value),
-                roll: parseFloat(document.getElementById("inputROLL").value),
-                pitch: parseFloat(document.getElementById("inputPITCH").value),
-                yaw: parseFloat(document.getElementById("inputYAW").value)
-            };
+/* ================= AUTOMÁTICO ================= */
+document.getElementById("startBtn").onclick = () =>
+    fetch(`${BASE_URL}/run_main`, {method: "POST"}).catch(() => {});
 
-            statusDiv.innerHTML = "Estado: moviendo robot...";
+document.getElementById("stopBtn").onclick = () =>
+    fetch(`${BASE_URL}/stop`, {method: "POST"}).catch(() => {});
 
-            fetch("http://127.0.0.1:5000/move", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                statusDiv.innerHTML = "Estado: " + data.status;
-            })
-            .catch(err => {
-                console.error(err);
-                statusDiv.innerHTML = "Error al mover robot";
-            });
-        });
+/* ================= HOME ================= */
+document.getElementById("homeBtn").onclick = () =>
+    fetch(`${BASE_URL}/home`, {method: "POST"}).catch(() => {});
 
-        // -------------------------
-        // ACTUALIZAR PIEZAS
-        // -------------------------
-        function actualizarPiezas() {
-            fetch("http://127.0.0.1:5000/paletizadas", { method: 'GET' })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('piezas').textContent = data.piezas;
-                })
-                .catch(err => console.error(err));
-        }
+/* ================= CINTA ================= */
+document.getElementById("cintaOnBtn").onclick = () =>
+    fetch(`${BASE_URL}/cinta`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({estado: "on", velocidad: velocidadSeleccionada})
+    }).catch(() => {});
 
-        // -------------------------
-        // ACTUALIZAR POSICIÓN
-        // -------------------------
-        function actualizarPosicion() {
-            fetch("http://127.0.0.1:5000/posicion", { method: 'GET' })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("X").textContent = data.x;
-                    document.getElementById("Y").textContent = data.y;
-                    document.getElementById("Z").textContent = data.z;
-                    document.getElementById("ROLL").textContent = data.roll;
-                    document.getElementById("PITCH").textContent = data.pitch;
-                    document.getElementById("YAW").textContent = data.yaw;
-                })
-                .catch(err => console.error(err));
-        }
+document.getElementById("cintaOffBtn").onclick = () =>
+    fetch(`${BASE_URL}/cinta`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({estado: "off"})
+    }).catch(() => {});
 
-        // Actualización cada segundo
-        setInterval(actualizarPiezas, 1000);
-        setInterval(actualizarPosicion, 1000);
+/* ================= HERRAMIENTA ================= */
+document.getElementById("toolOpenBtn").onclick = () =>
+    fetch(`${BASE_URL}/tool`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({accion: "open"})
+    }).catch(() => {});
 
-    </script>
+document.getElementById("toolCloseBtn").onclick = () =>
+    fetch(`${BASE_URL}/tool`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({accion: "close"})
+    }).catch(() => {});
+
+/* ================= SENSOR ================= */
+function actualizarSensor() {
+    fetch(`${BASE_URL}/sensor`)
+        .then(r => r.json())
+        .then(d => {
+            const box = document.getElementById("sensorIR");
+            const txt = document.getElementById("sensorText");
+            if (d.detectado) {
+                box.style.backgroundColor = "green";
+                txt.textContent = "Objeto detectado";
+            } else {
+                box.style.backgroundColor = "red";
+                txt.textContent = "Sin detección";
+            }
+        })
+        .catch(() => {});
+}
+
+/* ================= ESTADO ================= */
+function actualizarEstado() {
+    fetch(`${BASE_URL}/estado`)
+        .then(r => r.json())
+        .then(d => {
+            statusDiv.textContent = d.running ? "Funcionando" : "Parado";
+        })
+        .catch(() => {});
+}
+
+/* ================= PIEZAS ================= */
+function actualizarPiezas() {
+    fetch(`${BASE_URL}/paletizadas`)
+        .then(r => r.json())
+        .then(d => {
+            document.getElementById("piezas").textContent = d.piezas;
+        })
+        .catch(() => {});
+}
+
+/* ================= HERRAMIENTA ESTADO ================= */
+function actualizarHerramienta() {
+    fetch(`${BASE_URL}/herramienta`)
+        .then(r => r.json())
+        .then(d => {
+            document.getElementById("herramienta").textContent = d.herramienta;
+        })
+        .catch(() => {});
+}
+
+/* ================= POSICIÓN ================= */
+function actualizarPosicion() {
+    fetch(`${BASE_URL}/posicion`)
+        .then(r => r.json())
+        .then(d => {
+            document.getElementById("X").textContent = d.x;
+            document.getElementById("Y").textContent = d.y;
+            document.getElementById("Z").textContent = d.z;
+            document.getElementById("ROLL").textContent = d.roll;
+            document.getElementById("PITCH").textContent = d.pitch;
+            document.getElementById("YAW").textContent = d.yaw;
+        })
+        .catch(() => {});
+}
+
+/* ================= MOVER ================= */
+document.getElementById("moveBtn").onclick = () => {
+    fetch(`${BASE_URL}/move`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            x:     +document.getElementById("inputX").value,
+            y:     +document.getElementById("inputY").value,
+            z:     +document.getElementById("inputZ").value,
+            roll:  +document.getElementById("inputROLL").value,
+            pitch: +document.getElementById("inputPITCH").value,
+            yaw:   +document.getElementById("inputYAW").value
+        })
+    }).catch(() => {});
+};
+
+document.getElementById("jointsBtn").onclick = () => {
+    fetch(`${BASE_URL}/move_joints`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            joint1: +document.getElementById("inputJ1").value,
+            joint2: +document.getElementById("inputJ2").value,
+            joint3: +document.getElementById("inputJ3").value,
+            joint4: +document.getElementById("inputJ4").value,
+            joint5: +document.getElementById("inputJ5").value,
+            joint6: +document.getElementById("inputJ6").value
+        })
+    }).catch(() => {});
+};
+
+/* ================= LOGS ================= */
+function abrir_log() {
+    const e = document.getElementById("elemento").value;
+    window.open(`${BASE_URL}/log?elemento=${e}`);
+}
+
+/* ================= CONFIGURACIÓN ================= */
+document.getElementById("guardarIpBtn").onclick = () => {
+    const ip = document.getElementById("ipFlask").value.trim();
+    const puerto = document.getElementById("puertoFlask").value.trim();
+    const ipRobot = document.getElementById("ipRobot").value.trim();
+
+    if (ip && puerto) {
+        BASE_URL = `http://${ip}:${puerto}`;
+    }
+
+    if (ipRobot) {
+        fetch(`${BASE_URL}/config`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ip_robot: ipRobot})
+        }).catch(() => {});
+    }
+
+    alert("Configuración guardada. BASE_URL: " + BASE_URL);
+};
+
+/* ================= REFRESH ================= */
+setInterval(actualizarSensor,    1000);
+setInterval(actualizarEstado,    1000);
+setInterval(actualizarPiezas,    1000);
+setInterval(actualizarHerramienta, 1000);
+setInterval(actualizarPosicion,  1000);
+
+</script>
 
 </body>
 </html>

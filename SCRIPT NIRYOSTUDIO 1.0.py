@@ -119,4 +119,3 @@ def Pickandplace(num_obj):
 if __name__ == "__main__":
     Pickandplace(num_obj)
 
-

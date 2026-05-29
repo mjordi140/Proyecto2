@@ -41,12 +41,53 @@ offset_pequenyas = [
 ]
 
 
-def main():
-    Pickandplace(num_obj)
+def ejecutar_automatico():
+    robot.Pickandplace(0)
 
-def stop():
+def parar_robot():
     robot.stop()
-    robot.stop_conveyor()
+
+def ir_home():
+    robot.calibrate_auto()
+    robot.update_tool()
+    robot.move_pose(POS_INICIAL)
+
+def mover_pose(x, y, z, roll, pitch, yaw):
+    robot.calibrate_auto()
+    robot.update_tool()
+    robot.move_pose(x, y, z, roll, pitch, yaw)
+
+def mover_joints(j1, j2, j3, j4, j5, j6):
+    robot.calibrate_auto()
+    robot.update_tool()
+    robot.move_pose(j1, j2, j3, j4, j5, j6)
+
+def encender_cinta(velocidad):
+    conveyor_id = robot.set_conveyor()
+    if conveyor_id is None:
+        conveyor_id = robot.set_conveyor()
+    robot.run_conveyor(conveyor_id, speed=velocidad, direction=robot.ConveyorDirection.FORWARD)
+
+def parar_cinta():
+    conveyor_id = robot.set_conveyor()
+    if conveyor_id is not None:
+        robot.stop_conveyor(conveyor_id)
+
+def abrir_herramienta():
+    robot.calibrate_auto()
+    robot.update_tool()
+    robot.open_gripper(speed=100)
+
+def cerrar_herramienta():
+    robot.calibrate_auto()
+    robot.update_tool()
+    robot.close_gripper(speed=100)
+
+def get_posicion():
+    return robot.get_posicion_robot()
+
+def leer_sensor():
+    return robot.digital_read(robot.PIN_SENSOR_PIEZA_PEQUENYA) == robot.PinState.LOW
 
     
 

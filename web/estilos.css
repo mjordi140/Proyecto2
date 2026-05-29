@@ -8,15 +8,16 @@ body {
 
 .container {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding-bottom: 60px;
 }
 
 .right {
     width: 70%;
     text-align: center;
-    padding-top: 100px;
+    padding-top: 20px;
 }
 
 hr{
@@ -24,7 +25,7 @@ hr{
 }
 
 h1 {
-    padding-top: 100px;
+    padding-top: 20px;
     font-family: 'Arial Black', Gadget, sans-serif;
     font-size: 70px;
     color: #a62c2b;
@@ -70,7 +71,7 @@ h3{
     transform: scale(1.15);
 }
 
-.botton:active{
+.button:active{
     transform: scale(0.75);
 }
 
@@ -78,12 +79,15 @@ h3{
     margin-top: 40px;
     font-size: 20px;
 }
+
 .section {
     background-color: whitesmoke;
     padding: 30px;
     margin: 20px auto;
     width: 60%;
-    box-shadow: 5px 5px 8px blue, 10px 10px 8px red, 15px 15px 8px green;
+    box-shadow: 5px 5px 8px blue,
+                10px 10px 8px red,
+                15px 15px 8px green;
 }
 
 .pos{
@@ -106,6 +110,11 @@ h3{
     justify-content: center;
 }
 
+#mov_joints {
+    width: fit-content;
+    justify-content: center;
+}
+
 .position-form input {
     width: 70px;
     padding: 8px;
@@ -117,4 +126,17 @@ h3{
 
 .position-form {
     margin-top: 15px;
+}
+
+#sensorIR {
+    width: 120px;
+    height: 120px;
+    background-color: red;
+    border: 3px solid black;
+    margin: 10px auto;
+}
+
+#sensorText {
+    text-align: center;
+    font-weight: bold;
 }
