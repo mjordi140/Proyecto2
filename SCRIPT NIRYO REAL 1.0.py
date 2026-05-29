@@ -40,13 +40,6 @@ offset_pequenyas = [
     PoseObject(x=0.0, y=-0.05,z=0.0, roll=0, pitch=0, yaw=0)    # derecha arriba
 ]
 
-offset_grandes = [
-    PoseObject(x=0.05, y=0.05, z=0.0, roll=0, pitch=0, yaw=0),   # izquierda abajo
-    PoseObject(x=0.05, y=0.0,  z=0.0, roll=0, pitch=0, yaw=0),   # centro abajo
-    PoseObject(x=0.05, y=-0.05,z=0.0, roll=0, pitch=0, yaw=0)    # derecha abajo
-]
-
-
 
 def main():
     Pickandplace(num_obj)
@@ -146,6 +139,7 @@ def Pickandplace(num_obj):
                 robot.open_gripper(speed=100)
                 robot.move_pose(sumar_pose(POS_PRE_CENTRO, offset))
 
+        robot.move_pose(POS_INICIAL)
 
         
     robot.stop_conveyor(conveyor_id)
